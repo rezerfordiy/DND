@@ -1,0 +1,17 @@
+{
+  "sounds": {
+    "\u041f\u0435\u0441\u043d\u044f\u0440\u044b": {
+      "file": "static/kosil.mpeg",
+      "type": "music"
+    },
+    "\u042d\u043f\u0438\u0447\u043d\u0430\u044f": {
+      "file": "static/fight.mpeg",
+      "type": "music"
+    },
+    "\u041b\u0438\u0444\u0442": {
+      "file": "../source/lift.mpeg",
+      "type": "music"
+    }
+  },
+  "volume": 0.7
+}

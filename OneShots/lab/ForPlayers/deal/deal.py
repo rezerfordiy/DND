@@ -1,8 +1,9 @@
+WOMAN_GENDER = ['ая', 'на', 'а', 'ась', 'ла', 'ой', 'ла']
+MAN_GENDER = ['ый', 'ен', '', 'ся', '', 'ым', 'ел']
+# "gender": 
 
-# "gender": ['ая', 'на', 'а', 'ась', 'ла', 'ой', 'ла']
 
-
-data = {
+data1 = {
     "lab": {
         "boss": {
             "name": "Доктор Бум"
@@ -11,13 +12,52 @@ data = {
         "salary": "***Достаточного, чтобы не сбежал сразу*** 213123123", # gender не забудь
     },
     "player": {
-        "name": "Артем",
+        "name": "_____",
         "gender": ['ый', 'ен', '', 'ся', '', 'ым', 'ел'],
         "num": 12490142,
         "profession": "Лаборант-Универсал (Выживающий)",
     },
     "num": 12423412,
 }
+
+data2 = {
+    "lab": {
+        "boss": {
+            "name": "Доктор Бум"
+        },
+        "name": ["Лаборатория гениального Доктора Бума", "Лаборатории гениального Доктора Бума"],
+        "salary": "***Достаточного, чтобы не сбежала сразу*** 213123123", # gender не забудь
+    },
+    "player": {
+        "name": "_____",
+        "gender": WOMAN_GENDER,
+        "num": 12490143,
+        "profession": "Лаборант-Универсал (Выживающий)",
+    },
+    "num": 12423413,
+}
+
+data3 = {
+    "lab": {
+        "boss": {
+            "name": "Доктор Бум"
+        },
+        "name": ["Лаборатория гениального Доктора Бума", "Лаборатории гениального Доктора Бума"],
+        "salary": "***Достаточного, чтобы не сбежала сразу*** 213123123", # gender не забудь
+    },
+    "player": {
+        "name": "_____",
+        "gender": WOMAN_GENDER,
+        "num": 12490143,
+        "profession": "Лаборант-Универсал (Выживающий)",
+    },
+    "num": 12423413,
+}
+
+
+
+datas = [data1, data2, data3]
+
 
 if __name__ == '__main__':
     with open('договор.txt', 'r', encoding='utf-8') as f:
@@ -46,5 +86,7 @@ if __name__ == '__main__':
     for old, new in replacements.items():
         template = template.replace(old, new)
     
-    with open('output.txt', 'w', encoding='utf-8') as f:
-        f.write(template.format(**data))
+
+    for i in range(1, 4):
+        with open(f'output{i}.txt', 'w', encoding='utf-8') as f:
+            f.write(template.format(**datas[i - 1]))
