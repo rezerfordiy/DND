@@ -19,9 +19,20 @@ def load_config():
         return {
             "sounds": {
                 # "Взрыв": {"file": "sword.wav", "type": "sound"},
+                "Моцарт": {"file": "../source/Моцарт - Симфония 40.mp3", "type": "music"},
+                "Вивальди": {"file": "../source/AntonioVivaldi_Spring.mp3", "type": "music"},
+                "Лифт": {"file": "../source/lift.mpeg", "type": "music"},
                 "Песняры": {"file": "static/kosil.mpeg", "type": "music"},
                 "Эпичная": {"file": "static/fight.mpeg", "type": "music"},
-                "Лифт": {"file": "../source/lift.mpeg", "type": "music"},
+                "В кузне": {"file": "../source/iBenji - Boom (feat. Talabun).mp3", "type": "music"},
+                "На вулкане": {"file": "../source/DOOM.mpeg", "type": "music"},
+                "Матушка": {"file": "../source/Матушка.mpeg", "type": "music"},
+                "Матушка полная": {"file": "../source/Матушка полная.mpeg", "type": "music"},
+                "Крик": {"file": "../source/Wilhelm_scream.mpeg", "type": "sound"},
+                "Бум": {"file": "../source/the-sound-of-a-small-explosion.mp3", "type": "sound"},
+                # "Моцарт": {"file": "../source/Моцарт - Симфония 40.mp3", "type": "music"},
+                
+                
 
             },
             "volume": 0.7
