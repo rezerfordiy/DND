@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Карточка монстра D&D</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            color: #ffcc00;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            color: #aaa;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+        
+        .monster-card {
+            display: flex;
+            flex-wrap: wrap;
+            background: rgba(30, 30, 46, 0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            border: 2px solid #444;
+        }
+        
+        .image-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(20, 20, 35, 0.8);
+            border-right: 2px solid #333;
+        }
+        
+        .monster-image {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            border: 3px solid #555;
+        }
+        
+        .monster-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .stat-box {
+            background: rgba(40, 40, 60, 0.8);
+            border-radius: 8px;
+            padding: 12px 5px;
+            text-align: center;
+            border: 1px solid #555;
+            transition: transform 0.2s;
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-3px);
+            border-color: #ffcc00;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+        
+        .stat-name {
+            font-size: 0.9rem;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .content-section {
+            flex: 2;
+            min-width: 500px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .section-title {
+            font-size: 1.6rem;
+            color: #ffcc00;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #555;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+        }
+        
+        .monster-name {
+            font-size: 2.5rem;
+            color: #ff9900;
+            margin-bottom: 5px;
+            text-shadow: 0 0 5px rgba(255, 153, 0, 0.3);
+        }
+        
+        .monster-type {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        .characteristics {
+            margin-bottom: 25px;
+        }
+        
+        .char-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .char-item {
+            background: rgba(50, 50, 70, 0.5);
+            padding: 12px 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            border-left: 4px solid #555;
+        }
+        
+        .char-item:nth-child(odd) {
+            border-left-color: #ff9900;
+        }
+        
+        .char-name {
+            font-weight: bold;
+            color: #ccc;
+        }
+        
+        .char-value {
+            color: #ffcc00;
+            font-weight: bold;
+        }
+        
+        .abilities, .actions, .items {
+            margin-bottom: 25px;
+        }
+        
+        .ability-list, .action-list, .item-list {
+            list-style-type: none;
+        }
+        
+        .ability-item, .action-item, .item-item {
+            background: rgba(40, 40, 60, 0.5);
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #777;
+            transition: background 0.3s;
+        }
+        
+        .ability-item:hover, .action-item:hover, .item-item:hover {
+            background: rgba(50, 50, 80, 0.7);
+        }
+        
+        .ability-title, .action-title, .item-title {
+            color: #ffcc00;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+        
+        .ability-desc, .action-desc, .item-desc {
+            color: #ccc;
+            line-height: 1.5;
+        }
+        
+        .cr-badge {
+            display: inline-block;
+            background: linear-gradient(to right, #cc3300, #ff6600);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 900px) {
+            .monster-card {
+                flex-direction: column;
+            }
+            
+            .image-section {
+                border-right: none;
+                border-bottom: 2px solid #333;
+            }
+            
+            .content-section {
+                min-width: 100%;
+            }
+            
+            .char-list {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .monster-name {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>В театре</h1>
+            <p>Если хорошее выступление то смотрит на сцену</p>
+            <p>Паттерны:</p>
+            <p>0) Если кто-то крадется использует Готовность для атаки рекацией</p>
+            <p>1) Если принцессу захватывают то магически меняется с ней, используя прием Подмена</p>
+            <p>2) Совершает двойную атаку, с провоцированием и бонусным дейтсвием кидает меч</p>
+            <p>3) Бонусным действием притягивает меч, двойная атака</p>
+            <p>4) Парирует при атаке</p>
+        </div>
+        
+        <div class="monster-card">
+            <div class="image-section">
+                <div class="monster-image">
+                    <img src="../../images/paladin.jpg" alt="ля какой">
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-value">20(+5)</div>
+                        <div class="stat-name">Сила</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">20(+5)</div>
+                        <div class="stat-name">Ловкость</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">20(+5)</div>
+                        <div class="stat-name">Телосложение</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">16(+3)</div>
+                        <div class="stat-name">Интеллект</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">18(+4)</div>
+                        <div class="stat-name">Мудрость</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">10(+0)</div>
+                        <div class="stat-name">Харизма</div>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="content-section">
+                <h2 class="monster-name">Загадочный рыцарь</h2>
+                <div class="monster-type">Человек, законно-злой</div>
+                
+                <div class="characteristics">
+                    <h3 class="section-title"><i class="fas fa-chart-bar"></i> Характеристики</h3>
+                    <div class="char-list">
+                        <div class="char-item">
+                            <span class="char-name">Класс Доспеха:</span>
+                            <span class="char-value">20 </span>
+                        </div>
+                        <div class="char-item">
+                            <span class="char-name">Хиты:</span>
+                            <span class="char-value">60</span>
+                        </div>
+                        <div class="char-item">
+                            <span class="char-name">Скорость:</span>
+                            <span class="char-value">35 фт.</span>
+                        </div>
+                        <div class="char-item">
+                            <span class="char-name">Чувства:</span>
+                            <span class="char-value">Слепозрение 60 фт.</span>
+                        </div>
+                        <div class="char-item">
+                            <span class="char-name">Спасброски:</span>
+                            <span class="char-value">+4 к (Лов., Сил., Тел.)</span>
+                        </div>
+                        <div class="char-item">
+                            <span class="char-name">Навыки:</span>
+                            <span class="char-value">Внимательность +8, Атлетика +9, Акробатика +9</span>
+                        </div>
+                        <div class="char-item">
+                            <span class="char-name">Иммунитеты:</span>
+                            <span class="char-value">усыпление, очарование</span>
+                        </div>
+                        <div class="char-item">
+                            <span class="char-name">Языки:</span>
+                            <span class="char-value">Общий</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="abilities">
+                    <h3 class="section-title"><i class="fas fa-fire"></i> Приемы (4 кости к8)</h3>
+                    <ul class="ability-list">
+                        <li class="ability-item">
+                            <div class="ability-title">Парирование</div>
+                            <div class="ability-desc">Если другое существо причиняет вам урон рукопашной атакой, вы можете реакцией потратить одну кость превосходства, чтобы уменьшить урон на величину, равную броску вашей кости превосходства + ваш модификатор Ловкости.</div>
+                        </li>
+                        <li class="ability-item">
+                            <div class="ability-title">Провоцирующая атака.</div>
+                            <div class="ability-desc">Если вы попадаете по существу атакой оружием, вы можете потратить одну кость превосходства, чтобы попытаться спровоцировать противника атаковать вас. Вы добавляете кость превосходства к броску урона этой атаки, а цель должна совершить спасбросок Мудрости (сл. 17). При провале цель до конца вашего следующего хода совершает с помехой броски атаки по всем целям, кроме вас.</div>
+                        </li>
+                        <li class="ability-item">
+                            <div class="ability-title">Готовность. </div>
+                            <div class="ability-desc">Когда существо, которое вы можете видеть, входит в пределы досягаемости вашего рукопашного оружия, которое вы держите, вы можете реакцией потратить кость превосходства и совершить одну атаку по этому существу, используя это оружие. Если атака попадает по цели, добавьте кость превосходства к урону.</div>
+                        </li>
+                        <li class="ability-item">
+                            <div class="ability-title">Подмена. </div>
+                            <div class="ability-desc">В свой ход, когда вы находитесь в пределах 10 футов от существа, вы можете потратить одну кость превосходства и поменяться местами с этим существом, потратив при этом как минимум 5 футов передвижения. Существо должно быть согласно и не должно быть недееспособным. Это передвижение не провоцирует атак. 
+Бросьте кость превосходства. До начала вашего следующего хода вы или другое существо (на ваш выбор) получаете бонус к КД, равный выпавшему значению.
+
+</div>
+                        </li>
+                        <li class="ability-item">
+                            <div class="ability-title">Быстрый бросок. </div>
+                            <div class="ability-desc"> Бонусным действием вы можете потратить кость превосходства и совершить дальнобойную атаку оружием со свойством «метательное». Вы можете вытащить метательное оружие частью этого действия. При попадании добавьте кость превосходства к броску урона.</div>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="actions">
+                    <h3 class="section-title"><i class="fas fa-fist-raised"></i> Действия</h3>
+                    <ul class="action-list">
+                        <li class="action-item">
+                            <div class="action-title">Двойная атака</div>
+                            <div class="action-desc">ДВА РАЗА: + 12 при поподании 2к6 + 8 рубящего урона</div>
+                        </li>
+                        <li class="action-item">
+                            <div class="action-title">Револьвер</div>
+                            <div class="action-desc">+ 9 попаданию, досягаемость 40 фт., одно существо. Попадание: 2к12 дробящего</div>
+                        </li>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="items">
+                    <h3 class="section-title"><i class="fas fa-gem"></i> Сокровища и предметы</h3>
+                    <ul class="item-list">
+                        <li class="item-item">
+                            <div class="item-title">Серебрянный меч</div>
+                            <div class="item-desc">2к6 + 3 к броскам и атакам. Пока вы держите меч в руках, вы совершаете с преимуществом спасброски Интеллекта, Мудрости и Харизмы, обладаете иммунитетом к очарованию и сопротивлением урону психической энергией. Более того, если вы совершаете критическое попадание по астральному телу существа, вместо нанесения урона вы можете оборвать серебряную нить, ведущую к материальному телу существа.
+
+</div>
+                        </li>
+                        <li class="item-item">
+                            <div class="item-title">Ожерелье вечной молодости</div>
+                            <div class="item-desc">Пока надето не стареешь</div>
+                        </li>
+                        <li class="item-item">
+                            <div class="item-title">Мантия невидимости</div>
+                            <div class="item-desc">Тебя не видно</div>
+                        </li>
+                        <li class="item-item">
+                            <div class="item-title">Посох метеорита (не говори в слух)</div>
+                            <div class="item-desc">Пылающие шары ударяют о землю в четырёх разных точках, видимых в пределах дистанции. Все существа в сфере с радиусом 40 футов с центром на каждой из точек должны совершить спасбросок Ловкости. Сфера огибает углы. Существо получает 20к6 урона огнём и 20к6 дробящего урона при провале или половину этого урона при успехе. Существо, находящееся в области нескольких взрывов, получает урон только один раз.</div>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Он пал с честью</p>
+        </div>
+    </div>
+
+</body>
+</html>
