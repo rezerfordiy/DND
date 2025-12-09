@@ -185,9 +185,10 @@ class MonsterCardGenerator:
                 'name': 'Скорость',
                 'value': monster_data.get('speed', 'Не указана')
             },
+            # added none and skipness
             {
                 'name': 'Чувства',
-                'value': monster_data.get('senses', 'Не указаны')
+                'value': monster_data.get('senses', None)
             },
             {
                 'name': 'Спасброски',
@@ -199,16 +200,22 @@ class MonsterCardGenerator:
             },
             {
                 'name': 'Иммунитеты',
-                'value': monster_data.get('damage_immunities', 'Нет')
+                'value': monster_data.get('damage_immunities', None)
+            },
+            {
+                'name':'Сопротивления',
+                'value:': monster_data.get('', None)
             },
             {
                 'name': 'Языки',
-                'value': monster_data.get('languages', 'Не указаны')
+                'value': monster_data.get('languages', None)
             }
         ]
         
         html_parts = []
         for char in characteristics:
+            if char['value'] is None:
+                continue
             html_parts.append(f'''
                 <div class="char-item">
                     <span class="char-name">{char['name']}:</span>
