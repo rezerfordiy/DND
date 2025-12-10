@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Граф Дракулец Теней - Карточка монстра D&D</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS стили будут здесь */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            color: #ffcc00;
+            text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .monster-type {
+            font-size: 1.4rem;
+            color: #aaa;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        
+        .monster-card {
+            display: flex;
+            flex-wrap: wrap;
+            background: rgba(30, 30, 46, 0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            border: 2px solid #444;
+        }
+        
+        .image-section {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(20, 20, 35, 0.8);
+            border-right: 2px solid #333;
+        }
+        
+        .monster-image {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            border: 3px solid #555;
+        }
+        
+        .monster-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .stat-box {
+            background: rgba(40, 40, 60, 0.8);
+            border-radius: 8px;
+            padding: 12px 5px;
+            text-align: center;
+            border: 1px solid #555;
+            transition: transform 0.2s;
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-3px);
+            border-color: #ffcc00;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+        
+        .stat-name {
+            font-size: 0.9rem;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .content-section {
+            flex: 2;
+            min-width: 500px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .section-title {
+            font-size: 1.6rem;
+            color: #ffcc00;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #555;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title i {
+            margin-right: 10px;
+        }
+        
+        .characteristics {
+            margin-bottom: 25px;
+        }
+        
+        .char-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .char-item {
+            background: rgba(50, 50, 70, 0.5);
+            padding: 12px 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            border-left: 4px solid #555;
+        }
+        
+        .char-item:nth-child(odd) {
+            border-left-color: #ff9900;
+        }
+        
+        .char-name {
+            font-weight: bold;
+            color: #ccc;
+        }
+        
+        .char-value {
+            color: #ffcc00;
+            font-weight: bold;
+        }
+        
+        .patterns, .abilities, .actions, .items {
+            margin-bottom: 25px;
+        }
+        
+        .pattern-list, .ability-list, .action-list, .item-list {
+            list-style-type: none;
+        }
+        
+        .pattern-item, .ability-item, .action-item, .item-item {
+            background: rgba(40, 40, 60, 0.5);
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #777;
+            transition: background 0.3s;
+        }
+        
+        .pattern-item:hover, .ability-item:hover, .action-item:hover, .item-item:hover {
+            background: rgba(50, 50, 80, 0.7);
+        }
+        
+        .pattern-title, .ability-title, .action-title, .item-title {
+            color: #ffcc00;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+        
+        .pattern-desc, .ability-desc, .action-desc, .item-desc {
+            color: #ccc;
+            line-height: 1.5;
+        }
+        
+        .action-item {
+            cursor: pointer;
+        }
+        
+        .dice-roll {
+            background: rgba(255, 204, 0, 0.1);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-top: 8px;
+            border-left: 3px solid #ffcc00;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        
+        .cr-badge {
+            display: inline-block;
+            background: linear-gradient(to right, #cc3300, #ff6600);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.4rem;
+            margin-top: 10px;
+            box-shadow: 0 4px 8px rgba(204, 51, 0, 0.3);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #777;
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+        }
+        
+        .generated-info {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 900px) {
+            .monster-card {
+                flex-direction: column;
+            }
+            
+            .image-section {
+                border-right: none;
+                border-bottom: 2px solid #333;
+            }
+            
+            .content-section {
+                min-width: 100%;
+            }
+            
+            .char-list {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Граф Дракулец Теней</h1>
+            <p class="monster-type">Нежить, законно-злой</p>
+            <div class="cr-badge">Опасность: 14</div>
+        </div>
+        
+        <div class="monster-card">
+            <div class="image-section">
+                <div class="monster-image">
+                    <img src="../images/graf.jpg" alt="Граф Дракулец Теней">
+                </div>
+                
+                <div class="stats-grid">
+                    
+                <div class="stat-box">
+                    <div class="stat-value">16(+3)</div>
+                    <div class="stat-name">Сила</div>
+                </div>
+            
+                <div class="stat-box">
+                    <div class="stat-value">20(+5)</div>
+                    <div class="stat-name">Ловкость</div>
+                </div>
+            
+                <div class="stat-box">
+                    <div class="stat-value">18(+4)</div>
+                    <div class="stat-name">Телосложение</div>
+                </div>
+            
+                <div class="stat-box">
+                    <div class="stat-value">18(+4)</div>
+                    <div class="stat-name">Интеллект</div>
+                </div>
+            
+                <div class="stat-box">
+                    <div class="stat-value">16(+3)</div>
+                    <div class="stat-name">Мудрость</div>
+                </div>
+            
+                <div class="stat-box">
+                    <div class="stat-value">20(+5)</div>
+                    <div class="stat-name">Харизма</div>
+                </div>
+            
+                </div>
+            </div>
+            
+            <div class="content-section">
+                
+        <div class="patterns">
+            <h3 class="section-title"><i class="fas fa-robot"></i> Паттерны поведения</h3>
+            <ul class="pattern-list">
+                
+                <li class="pattern-item">
+                    <div class="pattern-title">Паттерн 1</div>
+                    <div class="pattern-desc">Граф управляет Кристаллом Теней</div>
+                </li>
+            
+                <li class="pattern-item">
+                    <div class="pattern-title">Паттерн 2</div>
+                    <div class="pattern-desc">Питается страхом и магической энергией</div>
+                </li>
+            
+            </ul>
+        </div>
+        
+                
+                <div class="characteristics">
+                    <h3 class="section-title"><i class="fas fa-chart-bar"></i> Характеристики</h3>
+                    <div class="char-list">
+                        
+                <div class="char-item">
+                    <span class="char-name">Класс Доспеха:</span>
+                    <span class="char-value">17</span>
+                </div>
+            
+                <div class="char-item">
+                    <span class="char-name">Хиты:</span>
+                    <span class="char-value">190 (18d8+108)</span>
+                </div>
+            
+                <div class="char-item">
+                    <span class="char-name">Скорость:</span>
+                    <span class="char-value">30 фт., полёт 60 фт. (в форме летучей мыши)</span>
+                </div>
+            
+                <div class="char-item">
+                    <span class="char-name">Чувства:</span>
+                    <span class="char-value">Темнозрение 120 фт., Чувство магии 60 фт.</span>
+                </div>
+            
+                <div class="char-item">
+                    <span class="char-name">Спасброски:</span>
+                    <span class="char-value">Ловкость +10, Харизма +10</span>
+                </div>
+            
+                <div class="char-item">
+                    <span class="char-name">Навыки:</span>
+                    <span class="char-value">Обман +10, Скрытность +10, Магия +9</span>
+                </div>
+            
+                <div class="char-item">
+                    <span class="char-name">Иммунитеты:</span>
+                    <span class="char-value">усыпление, очарование</span>
+                </div>
+            
+                <div class="char-item">
+                    <span class="char-name">Сопротивления:</span>
+                    <span class="char-value">некротическая энергия, силовой; дробящий, колющий, рубящий от немагических атак</span>
+                </div>
+            
+                <div class="char-item">
+                    <span class="char-name">Языки:</span>
+                    <span class="char-value">Общий, Драконий, Инфернальный</span>
+                </div>
+            
+                    </div>
+                </div>
+                
+                
+        <div class="abilities">
+            <h3 class="section-title"><i class="fas fa-fire"></i> Способности</h3>
+            <ul class="ability-list">
+                
+                <li class="ability-item">
+                    <div class="ability-title">Поглощение магии</div>
+                    <div class="ability-desc">Когда Кристалл Теней активирован, Граф восстанавливает 1d10 хитов за каждое заклинание 3-го уровня или выше, произнесённое в радиусе 60 фт.</div>
+                </li>
+            
+                <li class="ability-item">
+                    <div class="ability-title">Теневой шаг</div>
+                    <div class="ability-desc">Может телепортироваться между тенями в пределах 60 фт. в качестве бонусного действия</div>
+                </li>
+            
+            </ul>
+        </div>
+        
+                
+                
+        <div class="actions">
+            <h3 class="section-title"><i class="fas fa-fist-raised"></i> Действия</h3>
+            <ul class="action-list">
+                
+                <li class="action-item" data-action='{"name": "Укус вампира", "attack_bonus": 10, "damage_dice": "2d6+5", "damage_bonus": 5, "damage_type": "колющий + некротический"}'>
+                    <div class="action-title">Укус вампира</div>
+                    <div class="action-desc">
+                        +10 к попаданию, досягаемость 5 фт., урон: 2d6+5 +5 колющий + некротический<br>Цель должна преуспеть в спасброске Телосложения (КС 18), иначе теряет 2d8 хитов от некротической энергии, а Граф восстанавливает столько же хитов
+                    </div>
+                    <div class="dice-roll" style="display: none;"></div>
+                </li>
+            
+                <li class="action-item" data-action='{"name": "Луч Кристалла Теней", "attack_bonus": 8, "damage_dice": "8d8", "damage_bonus": 0, "damage_type": "силовой"}'>
+                    <div class="action-title">Луч Кристалла Теней</div>
+                    <div class="action-desc">
+                        +8 к попаданию, 120 фт., урон: 8d8 силовой<br>Конусообразный луч силового урона длиной 120 фт. Перезарядка (5-6)
+                    </div>
+                    <div class="dice-roll" style="display: none;"></div>
+                </li>
+            
+            </ul>
+        </div>
+        
+                
+                
+        <div class="items">
+            <h3 class="section-title"><i class="fas fa-gem"></i> Сокровища и предметы</h3>
+            <ul class="item-list">
+                
+                <li class="item-item">
+                    <div class="item-title">Кристалл Теней</div>
+                    <div class="item-desc">Артефакт, усиливающий магические способности вампира и стреляющий лучами силовой энергии</div>
+                </li>
+            
+                <li class="item-item">
+                    <div class="item-title">Плащ ночного владыки</div>
+                    <div class="item-desc">Даёт сопротивление урону силовым и некротическим уроном, +2 к КД</div>
+                </li>
+            
+            </ul>
+        </div>
+        
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Хладнокровный и расчётливый аристократ теней, предпочитает подчинять волю других, а не сражаться в открытую.</p>
+            <p class="generated-info">Сгенерировано 2025-12-10 15:27:40</p>
+        </div>
+    </div>
+    
+    <script>
+        // JavaScript для бросков кубиков
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const actionItems = document.querySelectorAll('.action-item');
+        
+            // Функция для парсинга записи кубиков (поддерживает d и к)
+            function parseDiceNotation(diceNotation) {
+                // Заменяем русскую 'к' на латинскую 'd' и парсим
+                const normalized = diceNotation.toLowerCase().replace('к', 'd');
+                const match = normalized.match(/(\d+)d(\d+)/);
+                
+                if (match) {
+                    return {
+                        count: parseInt(match[1]),
+                        sides: parseInt(match[2])
+                    };
+                }
+                return null;
+            }
+            
+            // Функция для броска кубиков
+            function rollDice(count, sides) {
+                let total = 0;
+                let rolls = [];
+                
+                for (let i = 0; i < count; i++) {
+                    const roll = Math.floor(Math.random() * sides) + 1;
+                    rolls.push(roll);
+                    total += roll;
+                }
+                
+                return { rolls, total };
+            }
+            
+            actionItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const actionData = JSON.parse(this.getAttribute('data-action'));
+                    const diceRollDiv = this.querySelector('.dice-roll');
+                    
+                    // Бросок атаки
+                    let attackRoll = '';
+                    if (actionData.attack_bonus !== undefined && actionData.attack_bonus !== null) {
+                        const d20 = Math.floor(Math.random() * 20) + 1;
+                        const total = d20 + actionData.attack_bonus;
+                        
+                        let specialEffects = '';
+                        if (d20 === 20) {
+                            specialEffects = ' ⚡КРИТИЧЕСКИЙ УСПЕХ!';
+                        } else if (d20 === 1) {
+                            specialEffects = ' 💥КРИТИЧЕСКИЙ ПРОВАЛ!';
+                        }
+                        
+                        attackRoll = `🎯 <strong>Атака:</strong> ${d20} + ${actionData.attack_bonus} = <strong>${total}</strong>${specialEffects}`;
+                    }
+                    
+                    // Бросок урона
+                    let damageRoll = '';
+                    if (actionData.damage_dice) {
+                        const diceInfo = parseDiceNotation(actionData.damage_dice);
+                        
+                        if (diceInfo) {
+                            const { count, sides } = diceInfo;
+                            const damageBonus = actionData.damage_bonus || 0;
+                            const { rolls, total: diceTotal } = rollDice(count, sides);
+                            const totalDamage = diceTotal + damageBonus;
+                            
+                            damageRoll = `💥 <strong>Урон:</strong> ${rolls.join(' + ')}`;
+                            
+                            if (damageBonus !== 0) {
+                                damageRoll += ` ${damageBonus > 0 ? '+' : ''}${damageBonus}`;
+                            }
+                            
+                            damageRoll += ` = <strong>${totalDamage}</strong> ${actionData.damage_type || ''}`;
+                            
+                            // Добавляем информацию о кубиках
+                            damageRoll += `<br>🎲 <em>${count}d${sides}`;
+                            if (damageBonus !== 0) {
+                                damageRoll += ` ${damageBonus > 0 ? '+' : ''}${damageBonus}`;
+                            }
+                            damageRoll += `</em>`;
+                        } else {
+                            damageRoll = `⚠️ Неверный формат кубиков: "${actionData.damage_dice}"`;
+                        }
+                    }
+                    
+                    // Показываем результат
+                    diceRollDiv.innerHTML = `${attackRoll}${attackRoll && damageRoll ? '<br><br>' : ''}${damageRoll}`;
+                    diceRollDiv.style.display = 'block';
+                    
+                    // Автоскрытие через 15 секунд
+                    setTimeout(() => {
+                        diceRollDiv.style.display = 'none';
+                    }, 15000);
+                });
+            });
+        });
+        
+    </script>
+</body>
+</html>

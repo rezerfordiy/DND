@@ -204,7 +204,7 @@ class MonsterCardGenerator:
             },
             {
                 'name':'Сопротивления',
-                'value:': monster_data.get('', None)
+                'value': monster_data.get('damage_resistances', None)
             },
             {
                 'name': 'Языки',
