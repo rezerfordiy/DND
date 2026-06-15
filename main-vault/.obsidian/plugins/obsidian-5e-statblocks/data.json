@@ -4,7 +4,7 @@
   "layouts": [],
   "default": "basic-5e-layout",
   "useDice": true,
-  "renderDice": false,
+  "renderDice": true,
   "export": true,
   "showAdvanced": false,
   "version": {
